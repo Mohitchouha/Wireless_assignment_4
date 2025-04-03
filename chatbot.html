@@ -1,0 +1,51 @@
+<div id="chatApp">
+    <div id="chatBox"></div>
+    <input type="text" id="chatInput" placeholder="Type a message...">
+    <button id="chatSend">Send</button>
+</div>
+
+<script>
+const chatBox = document.getElementById("chatBox");
+const chatInput = document.getElementById("chatInput");
+document.getElementById("chatSend").addEventListener("click", sendMessage);
+
+const responses = {
+    "hello": "Hi there! 👋",
+    "how are you": "I'm just a bot, but I'm doing great! 😊",
+    "what's your name": "I'm ChatBot! 🤖",
+    "bye": "Goodbye! Have a great day! 👋",
+    "default": "Sorry, I don't understand. Try asking something else. 🤷‍♂️"
+};
+
+function sendMessage() {
+    let userMessage = chatInput.value.trim().toLowerCase();
+    if (userMessage === "") return;
+
+    addChatMessage("You: " + userMessage);
+    setTimeout(() => addChatMessage("Bot: " + getResponse(userMessage)), 500);
+    
+    chatInput.value = "";
+}
+
+function getResponse(userMessage) {
+    for (let key in responses) {
+        if (userMessage.includes(key)) {
+            return responses[key];
+        }
+    }
+    return responses["default"];
+}
+
+function addChatMessage(text) {
+    let p = document.createElement("p");
+    p.textContent = text;
+    chatBox.appendChild(p);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+</script>
+
+<style>
+    #chatApp { width: 300px; border: 1px solid black; padding: 10px; }
+    #chatBox { height: 200px; overflow-y: auto; border-bottom: 1px solid gray; margin-bottom: 10px; }
+</style>
+
